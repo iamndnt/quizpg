@@ -27,8 +27,20 @@ class GameObjectFactory {
                     object.setInput(new InputMain
                             (mGameEngineReference));
                     break;
-                case "InputTracNghiem":
-                    object.setInput(new InputTracNghiem
+                case "InputTracNghiem1":
+                    object.setInput(new InputTracNghiem1
+                            (mGameEngineReference));
+                    break;
+                case "InputTracNghiem2":
+                    object.setInput(new InputTracNghiem2
+                            (mGameEngineReference));
+                    break;
+                case "InputTracNghiem3":
+                    object.setInput(new InputTracNghiem3
+                            (mGameEngineReference));
+                    break;
+                case "InputTracNghiem4":
+                    object.setInput(new InputTracNghiem4
                             (mGameEngineReference));
                     break;
                 case "InputCauNoiHay":
@@ -44,7 +56,7 @@ class GameObjectFactory {
                             (mGameEngineReference));
                     break;
                 case "StdGraphicsComponent":
-                    object.setGraphics(new StdGraphicsComponent(), mContext, spec, objectSize);
+                    object.setGraphics(new StdGraphicsComponent(), mContext, spec);
                     break;
                 default:
                     break;

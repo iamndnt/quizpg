@@ -1,0 +1,56 @@
+package com.myapp.quizpg;
+
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Point;
+
+public class Triangle extends HinhHoc{
+
+    private Point diem1;
+    private Point diem2;
+    private Point diem3;
+
+    private int top;
+    private int left;
+    private int right;
+    private int bottom;
+
+    private Paint paint;
+    Triangle(Point diem1, Point diem2, Point diem3 , int color){
+        this.diem1 = diem1;
+        this.diem2 = diem2;
+        this.diem3 = diem3;
+
+        paint = new Paint();
+        paint.setColor(color);
+
+        left = diem1.x;
+        top = diem1.y;
+        bottom = diem2.y;
+        right = diem3.x;
+
+    }
+
+    static void drawTriangle(Canvas canvas, Triangle triangle){
+
+        Path path = new Path();
+        path.moveTo(triangle.diem1.x,triangle.diem1.y); // Top
+        path.lineTo(triangle.diem2.x,triangle.diem2.y); // Bottom left
+        path.lineTo(triangle.diem3.x,triangle.diem3.y); // Bottom right
+        path.lineTo(triangle.diem1.x,triangle.diem1.y); // Back to Top
+        path.close();
+
+        canvas.drawPath(path, triangle.paint);
+    }
+
+    public boolean contains(int x, int y) {
+            if(x<right && x>left){
+                if(y<bottom&&y>top){
+                    return true;
+                }
+            }
+        return false;
+    }
+}

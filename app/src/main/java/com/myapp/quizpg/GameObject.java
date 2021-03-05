@@ -12,14 +12,18 @@ class GameObject {
     void setInput(ComponentInput s) {
         s.setControl(graphicsComponent.getControl());
     }
+
     void setGraphics(GraphicsComponent g, Context c,
-                     ObjectSpec spec, PointF objectSize) {
+                     ObjectSpec spec) {
         graphicsComponent = g;
-        g.initialize(c, spec, objectSize);
+        g.initialize(c, spec);
     }
 
-    void draw(Canvas canvas, Paint paint) {
-        graphicsComponent.draw(canvas, paint);
+
+    void draw(Canvas canvas, Paint paint,GameEngine ge) {
+        graphicsComponent.draw(canvas, paint,ge);
     }
 
+    public void setBeginImage() {
+    }
 }

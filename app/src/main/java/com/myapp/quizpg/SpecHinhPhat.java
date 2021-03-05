@@ -1,6 +1,10 @@
 package com.myapp.quizpg;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
@@ -12,35 +16,76 @@ public class SpecHinhPhat extends ObjectSpec{
             "StdGraphicsComponent",
             "InputHinhPhat"};
 
+
     static int EXIT = 0;
     static int KHUNGHINH = 1;
     static int NEXT = 2;
     static int PREVIOUS = 3;
+    private Bitmap bitmap;
+    SpecHinhPhat(PointF mScreenSize, GameEngine ge,Context context) {
+        super(components,mScreenSize);
 
-    SpecHinhPhat(PointF mScreenSize ) {
-        super(components);
-        topic = "HINH PHAT" ;
         this.mScreenSize = mScreenSize;
+        int x = (int)mScreenSize.x;
+        int y = (int)mScreenSize.y;
+        topic = "hinhphat";
+        int padding_x = x/50;
+        int padding_y = y/50;
+        int padding_y2 = y/30;
+        color = Color.rgb(0,227,0);
+        bitmap = initializeBitmap("hinhbandau",context,new Point(x,y));
 
-        rects = new myRect[4];
-        rects[0] = new myRect("EXIT",300,300,400,400);
-        rects[1] = new myRect("KHUNG HINH",500,500,700,700);
-        rects[2] = new myRect("NEXT",600,600,800,800);
-        rects[3] = new myRect("PREVIOUS",600,600,800,800);
+        rects = new myRect[2];
+        triangles = new Triangle[2];
+        rects[0] = new myRect("EXIT",(3*x)/8 ,(7*y)/8 ,(5*x)/8 ,(y),
+                Color.rgb(30, 252, 140),
+                Color.rgb(30, 34, 233),
+                (int)mScreenSize.x/50,
+                padding_x, padding_y,ge,null);
+
+        rects[1] = new myRect(null,x/8,y/8,(7*x)/8,(7*y)/8,
+                Color.rgb(255,255,255),
+                Color.rgb(2,195,6),
+                (int)mScreenSize.x/50,
+                padding_x, 0,ge,bitmap);
+
+        Point d1 = new Point(7*x/8+padding_x,y/8+padding_y2);
+        Point d2 = new Point(7*x/8+padding_x,7*y/8-padding_y2);
+        Point d3 = new Point(x-padding_x,y/2);
+        triangles[0] = new Triangle(d1,d2,d3,Color.rgb(30, 252, 140));
+
+        d1 = new Point(x/8-padding_x,y/8+padding_y2);
+        d2 = new Point(x/8-padding_x,7*y/8-padding_y2);
+        d3 = new Point(0+padding_x,y/2);
+        triangles[1] = new Triangle(d1,d2,d3,Color.rgb(30, 252, 140));
 
         controls = new ArrayList<>();
         controls.add(EXIT,rects[0]);
         controls.add(KHUNGHINH,rects[1]);
-        controls.add(NEXT, rects[2]);
-        controls.add(PREVIOUS, rects[3]);
+        controls.add(NEXT, triangles[0]);
+        controls.add(PREVIOUS, triangles[1]);
 
     }
 
+    Bitmap initializeBitmap(String NameBitmap, Context context,Point size) {
+        Bitmap bitmap;// = new Bitmap();
+        // Make a resource id out of the string of the file name
+        int resID = context.getResources()
+                .getIdentifier(NameBitmap,
+                        "drawable",
+                        context.getPackageName());
 
-    @Override
-    public int getColor() {
-        return Color.argb(100,255,255,255);
+        // Load the bitmap using the id
+        bitmap = BitmapFactory.decodeResource(
+                context.getResources(), resID);
+
+        // Resize the bitmap
+        bitmap = Bitmap
+                .createScaledBitmap(bitmap,
+                        size.x,
+                        size.y,
+                        false);
+
+        return bitmap;
     }
-
-
 }

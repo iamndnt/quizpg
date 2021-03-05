@@ -1,53 +1,61 @@
 package com.myapp.quizpg;
 
-import android.graphics.Rect;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
 
 class InputMain implements ComponentInput, ObserverInput {
 
-    private ArrayList<myRect> controls;
+    private ArrayList<HinhHoc> controls;
+
     InputMain(GameEngine ger) {
         ger.addObserver(this);
     }
 
     @Override
-    public void setControl(ArrayList<myRect> control) {
+    public void setControl(ArrayList<HinhHoc> control) {
         controls = control;
     }
 
     @Override
-    public void handleInput(MotionEvent event, GameState gameState) {
+    public void handleInput(MotionEvent event, GameState gameState,GameEngine ge) {
 
         int i = event.getActionIndex();
         int x = (int) event.getX(i);
         int y = (int) event.getY(i);
 
+        myRect Exit = (myRect)controls.get(SpecMain.TRACNGHIEM);
+        myRect Hinhphat = (myRect)controls.get(SpecMain.HINHPHAT);
+        myRect Caunoihay = (myRect)controls.get(SpecMain.CAUNOIHAY);
+        myRect Tronghoasen = (myRect)controls.get(SpecMain.TRONGHOASEN);
+
         int eventType = event.getAction() & MotionEvent.ACTION_MASK;
 
-        if(eventType == MotionEvent.ACTION_UP || eventType == MotionEvent.ACTION_POINTER_UP) {
-            if (controls.get(SpecMain.TRACNGHIEM).rect.contains(x, y)) {
-                if(gameState.getgd() == GameState.GD_MAIN){
-                    gameState.setgd(GameState.GD_TRACNGHIEM);
-                }
-            }
-            if (controls.get(SpecMain.HINHPHAT).rect.contains(x, y)) {
-                if(gameState.getgd() == GameState.GD_MAIN){
-                    gameState.setgd(GameState.GD_HINHPHAT);
-                }
-            }
-            if (controls.get(SpecMain.CAUNOIHAY).rect.contains(x, y)) {
-                if(gameState.getgd() == GameState.GD_MAIN){
-                    gameState.setgd(GameState.GD_CAUNOIHAY);
-                }
-            }
-            if (controls.get(SpecMain.TRONGHOASEN).rect.contains(x, y)) {
-                if(gameState.getgd() == GameState.GD_MAIN){
-                    gameState.setgd(GameState.GD_TRONGHOASEN);
+        if(gameState.getKey()) {
+            if (eventType == MotionEvent.ACTION_UP || eventType == MotionEvent.ACTION_POINTER_UP) {
+
+                if (Exit.rect.contains(x, y)) {
+                    if (gameState.getgd() == GameState.GD_MAIN) {
+                        gameState.setgd(GameState.GD_TRACNGHIEM1);
+                        gameState.clearKey();
+                    }
+                } else if (Hinhphat.rect.contains(x, y)) {
+                    if (gameState.getgd() == GameState.GD_MAIN) {
+                        gameState.setgd(GameState.GD_HINHPHAT);
+                        gameState.clearKey();
+                    }
+                } else if (Caunoihay.rect.contains(x, y)) {
+                    if (gameState.getgd() == GameState.GD_MAIN) {
+                        gameState.setgd(GameState.GD_CAUNOIHAY);
+                        gameState.clearKey();
+                    }
+                } else if (Tronghoasen.rect.contains(x, y)) {
+                    if (gameState.getgd() == GameState.GD_MAIN) {
+                        gameState.setgd(GameState.GD_TRONGHOASEN);
+                        gameState.clearKey();
+                    }
                 }
             }
         }
     }
-
 }

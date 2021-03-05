@@ -1,34 +1,62 @@
 package com.myapp.quizpg;
 
-import android.graphics.Rect;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
 
 public class InputCauNoiHay implements ComponentInput, ObserverInput{
 
-    private ArrayList<myRect> controls;
+    private ArrayList<HinhHoc> controls;
 
+    private int index;
     InputCauNoiHay(GameEngine ger) {
         ger.addObserver(this);
     }
 
     @Override
-    public void setControl(ArrayList<myRect> control) {
+    public void setControl(ArrayList<HinhHoc> control) {
         controls = control;
     }
 
     @Override
-    public void handleInput(MotionEvent event, GameState gameState) {
+    public void handleInput(MotionEvent event, GameState gameState, GameEngine ge) {
         int i = event.getActionIndex();
         int x = (int) event.getX(i);
         int y = (int) event.getY(i);
 
+        myRect Exit = (myRect)controls.get(SpecCauNoiHay.EXIT);
+        myRect KhungHinh = (myRect)controls.get(SpecCauNoiHay.KHUNGHINH);
+        Triangle Previous = (Triangle)controls.get(SpecCauNoiHay.PREVIOUS);
+        Triangle Next = (Triangle)controls.get(SpecCauNoiHay.NEXT);
+
         int eventType = event.getAction() & MotionEvent.ACTION_MASK;
-        if(eventType == MotionEvent.ACTION_UP || eventType == MotionEvent.ACTION_POINTER_UP) {
-            if (controls.get(SpecCauNoiHay.EXIT).rect.contains(x, y)) {
-                if(gameState.getgd() == gameState.GD_CAUNOIHAY){
-                    gameState.setgd(gameState.GD_MAIN);
+
+        if(gameState.getKey()) {
+            if (eventType == MotionEvent.ACTION_UP || eventType == MotionEvent.ACTION_POINTER_UP) {
+
+                if (Exit.rect.contains(x, y)) {
+                    if (gameState.getgd() == gameState.GD_CAUNOIHAY) {
+                        gameState.setgd(gameState.GD_MAIN);
+                        gameState.clearKey();
+                    }
+                } else if (Previous.contains(x, y)) {
+                    if (gameState.getgd() == gameState.GD_CAUNOIHAY) {
+                        KhungHinh.checkBitmap(index);
+                        index++;
+                        if(index == 10){
+                            index = 0;
+                        }
+                        gameState.clearKey();
+                    }
+                } else if (Next.contains(x, y)) {
+                    if (gameState.getgd() == gameState.GD_CAUNOIHAY) {
+                        KhungHinh.checkBitmap(index);
+                        index--;
+                        if(index < 0){
+                            index = 9;
+                        }
+                        gameState.clearKey();
+                    }
                 }
             }
         }
