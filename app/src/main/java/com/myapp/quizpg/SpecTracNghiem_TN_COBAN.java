@@ -38,7 +38,7 @@ public class SpecTracNghiem_TN_COBAN extends ObjectSpec{
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/50,
                 padding_x, padding_y,
-                ge,null);
+                ge,null,topic);
 
 
         rects_tn[1] = new myRect("OPTION1",0,y/2,3*x/4,5*y/8,
@@ -46,28 +46,28 @@ public class SpecTracNghiem_TN_COBAN extends ObjectSpec{
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/50,
                 padding_x, padding_y,
-                ge,null);
+                ge,null,topic);
 
         rects_tn[2] = new myRect("OPTION2",0,5*y/8,3*x/4,3*y/4,
                 Color.argb(100,255,255,255),
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/50,
                 padding_x, padding_y,
-                ge,null);
+                ge,null,topic);
 
         rects_tn[3] = new myRect("OPTION3",0,3*y/4,3*x/4,7*y/8,
                 Color.argb(100,255,255,255),
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/50,
                 padding_x, padding_y,
-                ge,null);
+                ge,null,topic);
 
         rects_tn[4] = new myRect("OPTION4",0,7*y/8,3*x/4,y,
                 Color.argb(100,255,255,255),
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/50,
                 padding_x, padding_y,
-                ge,null);
+                ge,null,topic);
 
 
 
@@ -78,28 +78,28 @@ public class SpecTracNghiem_TN_COBAN extends ObjectSpec{
                 Color.argb(100,255,255,255),
                 Color.argb(100,255,255,255),
                 (int)mScreenSize.x/50,
-                0, 0, ge,null);
+                0, 0, ge,null,topic);
 
         rects[1] = new myRect("THOÁT RA",3*x/4,7*y/8,x,y,
                 Color.rgb(255,255,255),
                 Color.rgb(2,195,6),
                 (int)mScreenSize.x/50,
                 padding_x, padding_y,
-                ge,null);
+                ge,null,topic);
 
         rects[2] = new myRect("ĐIỂM: 0",3*x/4,0,x,y/8,
                 Color.rgb(255,255,255),
                 Color.rgb(2,195,6),
                 (int)mScreenSize.x/50,
                 padding_x, padding_y,
-                ge,null);
+                ge,null,topic);
 
         rects[3] = new myRect("CHÌA KHÓA: 0",3*x/4,y/8,x,y/4,
                 Color.rgb(255,255,255),
                 Color.rgb(2,195,6),
                 (int)mScreenSize.x/50,
                 padding_x, padding_y,
-                ge,null);
+                ge,null,topic);
 
         this.mScreenSize = mScreenSize;
         controls = new ArrayList<>();
