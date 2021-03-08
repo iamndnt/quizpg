@@ -7,18 +7,18 @@ import android.graphics.PointF;
 
 import java.util.ArrayList;
 
-public class SpecTracNghiem1 extends ObjectSpec{
+public class SpecTracNghiem_DASHBOARD extends ObjectSpec{
 
     private static final String[] components = new String [] {
             "StdGraphicsComponent",
-            "InputTracNghiem1"};
+            "InputTracNghiemDASHBOARD"};
 
     static int COBAN = 0;
     static int TRUNGCAP = 1;
     static int NANGCAO = 2;
     static int EXIT = 3;
 
-    SpecTracNghiem1(PointF mScreenSize, GameEngine ge) {
+    SpecTracNghiem_DASHBOARD(PointF mScreenSize, GameEngine ge) {
         super(components, mScreenSize);
 
         rects = new myRect[4];

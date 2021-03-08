@@ -16,7 +16,6 @@ public class SpecHinhPhat extends ObjectSpec{
             "StdGraphicsComponent",
             "InputHinhPhat"};
 
-
     static int EXIT = 0;
     static int KHUNGHINH = 1;
     static int NEXT = 2;
@@ -38,7 +37,7 @@ public class SpecHinhPhat extends ObjectSpec{
         rects = new myRect[2];
         triangles = new Triangle[2];
         rects[0] = new myRect("EXIT",(3*x)/8 ,(7*y)/8 ,(5*x)/8 ,(y),
-                Color.rgb(30, 252, 140),
+                Color.argb(100,255,255,255),
                 Color.rgb(30, 34, 233),
                 (int)mScreenSize.x/50,
                 padding_x, padding_y,ge,null);
@@ -52,12 +51,12 @@ public class SpecHinhPhat extends ObjectSpec{
         Point d1 = new Point(7*x/8+padding_x,y/8+padding_y2);
         Point d2 = new Point(7*x/8+padding_x,7*y/8-padding_y2);
         Point d3 = new Point(x-padding_x,y/2);
-        triangles[0] = new Triangle(d1,d2,d3,Color.rgb(30, 252, 140));
+        triangles[0] = new Triangle(d1,d2,d3,Color.argb(100,255,255,255));
 
         d1 = new Point(x/8-padding_x,y/8+padding_y2);
         d2 = new Point(x/8-padding_x,7*y/8-padding_y2);
         d3 = new Point(0+padding_x,y/2);
-        triangles[1] = new Triangle(d1,d2,d3,Color.rgb(30, 252, 140));
+        triangles[1] = new Triangle(d1,d2,d3,Color.argb(100,255,255,255));
 
         controls = new ArrayList<>();
         controls.add(EXIT,rects[0]);

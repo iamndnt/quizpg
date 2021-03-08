@@ -24,7 +24,7 @@ class InputMain implements ComponentInput, ObserverInput {
         int x = (int) event.getX(i);
         int y = (int) event.getY(i);
 
-        myRect Exit = (myRect)controls.get(SpecMain.TRACNGHIEM);
+        myRect Tracnghiem = (myRect)controls.get(SpecMain.TRACNGHIEM);
         myRect Hinhphat = (myRect)controls.get(SpecMain.HINHPHAT);
         myRect Caunoihay = (myRect)controls.get(SpecMain.CAUNOIHAY);
         myRect Tronghoasen = (myRect)controls.get(SpecMain.TRONGHOASEN);
@@ -34,9 +34,17 @@ class InputMain implements ComponentInput, ObserverInput {
         if(gameState.getKey()) {
             if (eventType == MotionEvent.ACTION_UP || eventType == MotionEvent.ACTION_POINTER_UP) {
 
-                if (Exit.rect.contains(x, y)) {
+                if (Tracnghiem.rect.contains(x, y)) {
                     if (gameState.getgd() == GameState.GD_MAIN) {
-                        gameState.setgd(GameState.GD_TRACNGHIEM1);
+
+
+
+                        if(ge.chiakhoa == 3){
+                            gameState.setDiaglog5();
+                        }else{
+                            gameState.setgd(GameState.GD_TRACNGHIEM_DASHBOARD);
+                        }
+
                         gameState.clearKey();
                     }
                 } else if (Hinhphat.rect.contains(x, y)) {

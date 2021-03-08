@@ -27,20 +27,76 @@ class Renderer {
 
                 if (gs.getgd() == gs.GD_MAIN) {
                     objects.get(Level.MAIN).draw(mCanvas, mPaint,ge);
+                    if(gs.getDiaglog5()){
+                        objects.get(Level.DIAGLOG_WIN).draw(mCanvas, mPaint,ge);
+                    }
                 } else if (gs.getgd() == gs.GD_CAUNOIHAY ) {
                     objects.get(Level.CAUNOIHAY).draw(mCanvas, mPaint,ge);
                 } else if (gs.getgd() == gs.GD_HINHPHAT ) {
                     objects.get(Level.HINHPHAT).draw(mCanvas, mPaint,ge);
                 } else if (gs.getgd() == gs.GD_TRONGHOASEN ) {
+
                     objects.get(Level.TRONGHOASEN).draw(mCanvas, mPaint,ge);
-                } else if (gs.getgd() == gs.GD_TRACNGHIEM1) {
-                    objects.get(Level.TRACNGHIEM1).draw(mCanvas, mPaint,ge);
-                }else if (gs.getgd() == gs.GD_TRACNGHIEM2) {
-                    objects.get(Level.TRACNGHIEM2).draw(mCanvas, mPaint,ge);
-                }else if (gs.getgd() == gs.GD_TRACNGHIEM3) {
-                    objects.get(Level.TRACNGHIEM3).draw(mCanvas, mPaint,ge);
-                }else if (gs.getgd() == gs.GD_TRACNGHIEM4) {
-                    objects.get(Level.TRACNGHIEM4).draw(mCanvas, mPaint,ge);
+
+                    gs.setDiaglog4();
+                    if(gs.getDiaglog4()){
+                        objects.get(Level.DIAGLOG_TRONGHOASEN).draw(mCanvas, mPaint,ge);
+                    }
+
+                } else if (gs.getgd() == gs.GD_TRACNGHIEM_DASHBOARD) {
+
+                    objects.get(Level.TRACNGHIEM_DASHBOARD).draw(mCanvas, mPaint,ge);
+
+                    if(gs.getDiaglog0()){
+                        objects.get(Level.DIAGLOG_TRUNGCAP).draw(mCanvas, mPaint,ge);
+                    }
+                    if(gs.getDiaglog6()){
+                        objects.get(Level.DIAGLOG_CAOCAP).draw(mCanvas, mPaint,ge);
+                    }
+                }else if (gs.getgd() == gs.GD_TRACNGHIEMC_COBAN) {
+
+                    objects.get(Level.TRACNGHIEM_COBAN).draw(mCanvas, mPaint,ge);
+                    if(gs.getDiaglog1()){
+                        objects.get(Level.DIAGLOG_INFOR).draw(mCanvas, mPaint,ge);
+                    }else if(gs.getDiaglog2()){
+                        objects.get(Level.DIAGLOG_INFOR2).draw(mCanvas, mPaint,ge);
+                    }else if(gs.getDiaglog3()){
+                        objects.get(Level.DIAGLOG_INFOR3).draw(mCanvas, mPaint,ge);
+                    }else if(gs.getDiaglog7()){
+                        objects.get(Level.DIAGLOG_KEY).draw(mCanvas, mPaint,ge);
+                    }
+
+                }else if (gs.getgd() == gs.GD_TRACNGHIEM_TRUNGCAP) {
+
+
+
+                        objects.get(Level.TRACNGHIEM_TRUNGCAP).draw(mCanvas, mPaint,ge);
+                        if(gs.getDiaglog1()){
+                            objects.get(Level.DIAGLOG_INFOR).draw(mCanvas, mPaint,ge);
+                        }else if(gs.getDiaglog2()){
+                            objects.get(Level.DIAGLOG_INFOR2).draw(mCanvas, mPaint,ge);
+                        }else if(gs.getDiaglog3()){
+                            objects.get(Level.DIAGLOG_INFOR3).draw(mCanvas, mPaint,ge);
+                        }else if(gs.getDiaglog7()){
+                            objects.get(Level.DIAGLOG_KEY).draw(mCanvas, mPaint,ge);
+                        }
+
+
+
+                }else if (gs.getgd() == gs.GD_TRACNGHIEM_CAOCAP) {
+
+
+
+                        objects.get(Level.TRACNGHIEM_CAOCAP).draw(mCanvas, mPaint,ge);
+                        if(gs.getDiaglog1()){
+                            objects.get(Level.DIAGLOG_INFOR).draw(mCanvas, mPaint,ge);
+                        }else if(gs.getDiaglog2()){
+                            objects.get(Level.DIAGLOG_INFOR2).draw(mCanvas, mPaint,ge);
+                        }else if(gs.getDiaglog3()){
+                            objects.get(Level.DIAGLOG_INFOR3).draw(mCanvas, mPaint,ge);
+                        }
+
+
                 }
 
             mSurfaceHolder.unlockCanvasAndPost(mCanvas);

@@ -8,18 +8,19 @@ import android.graphics.Rect;
 
 import java.util.ArrayList;
 
-public class SpecTracNghiem2 extends ObjectSpec{
+public class SpecTracNghiem_TN_COBAN extends ObjectSpec{
 
     private static final String[] components = new String [] {
             "StdGraphicsComponent",
-            "InputTracNghiem2"};
+            "InputTracNghiemCOBAN"};
 
     static int KHUNG = 0;
-    static int NEXTQUESTION = 1;
-    static int EXIT = 2;
-    static int TN = 3;
+    static int EXIT = 1;
+    static int DIEM = 2;
+    static int CHIAKHOA = 3;
+    static int TN = 4;
 
-    SpecTracNghiem2(PointF mScreenSize, GameEngine ge, Question question) {
+    SpecTracNghiem_TN_COBAN(PointF mScreenSize, GameEngine ge) {
         super(components,mScreenSize);
 
         int x = (int)mScreenSize.x;
@@ -32,8 +33,7 @@ public class SpecTracNghiem2 extends ObjectSpec{
 
         myRect[] rects_tn = new myRect[5];
 
-
-        rects_tn[0] = new myRect("QUESTION",0,y/8,(3*x)/4,(3*y)/4,
+        rects_tn[0] = new myRect("QUESTION",0,0,(3*x)/4,y/2,
                 Color.argb(100,255,255,255),
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/50,
@@ -41,28 +41,28 @@ public class SpecTracNghiem2 extends ObjectSpec{
                 ge,null);
 
 
-        rects_tn[1] = new myRect("OPTION1",0,3*y/4,3*x/8,7*y/8,
+        rects_tn[1] = new myRect("OPTION1",0,y/2,3*x/4,5*y/8,
                 Color.argb(100,255,255,255),
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/50,
                 padding_x, padding_y,
                 ge,null);
 
-        rects_tn[2] = new myRect("OPTION2",3*x/8,3*y/4,3*x/4,7*y/8,
+        rects_tn[2] = new myRect("OPTION2",0,5*y/8,3*x/4,3*y/4,
                 Color.argb(100,255,255,255),
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/50,
                 padding_x, padding_y,
                 ge,null);
 
-        rects_tn[3] = new myRect("OPTION3",0,7*y/8,3*x/8,y,
+        rects_tn[3] = new myRect("OPTION3",0,3*y/4,3*x/4,7*y/8,
                 Color.argb(100,255,255,255),
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/50,
                 padding_x, padding_y,
                 ge,null);
 
-        rects_tn[4] = new myRect("OPTION4",3*x/8,7*y/8,3*x/4,y,
+        rects_tn[4] = new myRect("OPTION4",0,7*y/8,3*x/4,y,
                 Color.argb(100,255,255,255),
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/50,
@@ -70,9 +70,9 @@ public class SpecTracNghiem2 extends ObjectSpec{
                 ge,null);
 
 
-        //Question question = new Question("ques1","op1","op2","op3","op4","A");
-        rects = new myRect[3];
-        tracNghiem = new myTracNghiem(rects_tn,question,ge);
+
+        rects = new myRect[4];
+        tracNghiem = new myTracNghiem(rects_tn,ge);
 
         rects[0] = new myRect(null,(3*x)/4,0,x,y,
                 Color.argb(100,255,255,255),
@@ -80,14 +80,21 @@ public class SpecTracNghiem2 extends ObjectSpec{
                 (int)mScreenSize.x/50,
                 0, 0, ge,null);
 
-        rects[1] = new myRect("NEXT QUESTION",3*x/4,3*y/4,x,7*y/8,
+        rects[1] = new myRect("THOÁT RA",3*x/4,7*y/8,x,y,
                 Color.rgb(255,255,255),
                 Color.rgb(2,195,6),
                 (int)mScreenSize.x/50,
                 padding_x, padding_y,
                 ge,null);
 
-        rects[2] = new myRect("EXIT",3*x/4,7*y/8,x,y,
+        rects[2] = new myRect("ĐIỂM: 0",3*x/4,0,x,y/8,
+                Color.rgb(255,255,255),
+                Color.rgb(2,195,6),
+                (int)mScreenSize.x/50,
+                padding_x, padding_y,
+                ge,null);
+
+        rects[3] = new myRect("CHÌA KHÓA: 0",3*x/4,y/8,x,y/4,
                 Color.rgb(255,255,255),
                 Color.rgb(2,195,6),
                 (int)mScreenSize.x/50,
@@ -97,8 +104,9 @@ public class SpecTracNghiem2 extends ObjectSpec{
         this.mScreenSize = mScreenSize;
         controls = new ArrayList<>();
         controls.add(KHUNG,rects[0]);
-        controls.add(NEXTQUESTION, rects[1]);
-        controls.add(EXIT, rects[2]);
+        controls.add(EXIT, rects[1]);
+        controls.add(DIEM, rects[2]);
+        controls.add(CHIAKHOA, rects[3]);
         controls.add(TN, tracNghiem);
     }
 

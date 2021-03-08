@@ -25,6 +25,12 @@ class StdGraphicsComponent implements GraphicsComponent {
     public void setBitmap(Bitmap bitmap) {
         bgBitmap = bitmap;
     }
+
+    @Override
+    public void setText(String text) {
+
+    }
+
     @Override
     public void initialize(Context context,
                            ObjectSpec spec){
@@ -55,38 +61,19 @@ class StdGraphicsComponent implements GraphicsComponent {
         }
 
         if(tracNghiem!=null){
-            myTracNghiem.drawTracNghiem(canvas,tracNghiem,paint);
+            tracNghiem.drawTracNghiem(canvas,paint);
         }
 
         if(triangles != null) {
             /* draw triangle */
             for (int i = 0; i < triangles.length; i++) {
-                Triangle.drawTriangle(canvas, triangles[i]);
+                triangles[i].drawTriangle(canvas);
             }
         }
 
         /* draw Rect  */
         for(int i=0;i<numRect;i++){
-            /* draw background bitmap */
-            if(mRect[i].getBGBitmap() != null){
-                canvas.drawBitmap(mRect[i].Rectbitmap,null,mRect[i].rect,null);
-            }else{
-                paint.setColor(mRect[i].getColorRect());
-                canvas.drawRect(mRect[i].rect, paint);
-            }
-
-            /* draw text bitmap */
-            if(mRect[i].getWriteText() != null ) {
-                paint.setColor(mRect[i].getColorTextRect());
-                paint.setTextSize(mRect[i].getTextSize());
-                int len_x = (int) paint.measureText(mRect[i].text);
-                Rect bounds = new Rect();
-                paint.getTextBounds(mRect[i].text, 0, mRect[i].text.length(), bounds);
-                int len_y = bounds.height();
-                int x = setPosX(mRect[i].rect.left, mRect[i].rect.width(), len_x);
-                int y = setPosY(mRect[i].rect.top, mRect[i].rect.height(), len_y);
-                canvas.drawText(mRect[i].text, x, y, paint);
-            }
+            mRect[i].myDrawRect(canvas,paint);
         }
     }
 
@@ -108,15 +95,7 @@ class StdGraphicsComponent implements GraphicsComponent {
         }
     }
 
-    private int setPosY(int top, int h, int len) {
-        int t = h - len;
-        return top + (t/2)+len;
-    }
 
-    private int setPosX(int left, int w,int len) {
-        int t = w - len;
-        return left+(t/2);
-    }
 
     @Override
     public ArrayList<HinhHoc> getControl() {

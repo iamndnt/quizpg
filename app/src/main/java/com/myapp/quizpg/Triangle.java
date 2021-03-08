@@ -33,16 +33,16 @@ public class Triangle extends HinhHoc{
 
     }
 
-    static void drawTriangle(Canvas canvas, Triangle triangle){
+    void drawTriangle(Canvas canvas){
 
         Path path = new Path();
-        path.moveTo(triangle.diem1.x,triangle.diem1.y); // Top
-        path.lineTo(triangle.diem2.x,triangle.diem2.y); // Bottom left
-        path.lineTo(triangle.diem3.x,triangle.diem3.y); // Bottom right
-        path.lineTo(triangle.diem1.x,triangle.diem1.y); // Back to Top
+        path.moveTo(this.diem1.x,this.diem1.y); // Top
+        path.lineTo(this.diem2.x,this.diem2.y); // Bottom left
+        path.lineTo(this.diem3.x,this.diem3.y); // Bottom right
+        path.lineTo(this.diem1.x,this.diem1.y); // Back to Top
         path.close();
 
-        canvas.drawPath(path, triangle.paint);
+        canvas.drawPath(path, this.paint);
     }
 
     public boolean contains(int x, int y) {

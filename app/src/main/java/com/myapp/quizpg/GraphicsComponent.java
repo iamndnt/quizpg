@@ -21,4 +21,6 @@ interface GraphicsComponent {
     ArrayList<HinhHoc> getControl();
 
     void setBitmap(Bitmap bitmap);
+
+    void setText(String text);
 }

@@ -27,20 +27,20 @@ class GameObjectFactory {
                     object.setInput(new InputMain
                             (mGameEngineReference));
                     break;
-                case "InputTracNghiem1":
-                    object.setInput(new InputTracNghiem1
+                case "InputTracNghiemDASHBOARD":
+                    object.setInput(new InputTracNghiem_DASHBOARD
                             (mGameEngineReference));
                     break;
-                case "InputTracNghiem2":
-                    object.setInput(new InputTracNghiem2
+                case "InputTracNghiemCOBAN":
+                    object.setInput(new InputTracNghiem_TN_COBAN
                             (mGameEngineReference));
                     break;
-                case "InputTracNghiem3":
-                    object.setInput(new InputTracNghiem3
+                case "InputTracNghiemTRUNGCAP":
+                    object.setInput(new InputTracNghiem_TN_TRUNGCAP
                             (mGameEngineReference));
                     break;
-                case "InputTracNghiem4":
-                    object.setInput(new InputTracNghiem4
+                case "InputTracNghiemCAOCAP":
+                    object.setInput(new InputTracNghiem_TN_CAOCAP
                             (mGameEngineReference));
                     break;
                 case "InputCauNoiHay":
@@ -55,9 +55,42 @@ class GameObjectFactory {
                     object.setInput(new InputTrongHoaSen
                             (mGameEngineReference));
                     break;
+                case "InputDiaglogTRONGHOASEN":
+                    object.setInput(new InputDiaglogTracNghiemHoaSen
+                            (mGameEngineReference));
+                    break;
+                case "InputDiaglogTRUNGCAP":
+                    object.setInput(new InputDiaglogTrungCap
+                            (mGameEngineReference));
+                    break;
+                case "InputDiaglogCAOCAP":
+                    object.setInput(new InputDiaglogCaoCap
+                            (mGameEngineReference));
+                    break;
+                case "InputDiaglogInfor":
+                    object.setInput(new InputDiaglogInfor1
+                            (mGameEngineReference));
+                    break;
+                case "InputDiaglogInfor2":
+                    object.setInput(new InputDiaglogInfor2
+                            (mGameEngineReference));
+                    break;
+                case "InputDiaglogInfor3":
+                    object.setInput(new InputDiaglogInfor3
+                            (mGameEngineReference));
+                    break;
+                case "InputDiaglogInfor4":
+                    object.setInput(new InputDiaglogInfor4
+                            (mGameEngineReference));
+                    break;
+                case "InputDiaglogWin":
+                    object.setInput(new InputDiaglogWin
+                            (mGameEngineReference));
+                    break;
                 case "StdGraphicsComponent":
                     object.setGraphics(new StdGraphicsComponent(), mContext, spec);
                     break;
+
                 default:
                     break;
             }

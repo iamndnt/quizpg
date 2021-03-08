@@ -1,45 +1,45 @@
 package com.myapp.quizpg;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
-import java.io.Serializable;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Random;
 
 class GameEngine extends SurfaceView
         implements Runnable,
         GameEngineBroadcaster {
 
+    private static final String TOKEN = "~";
     private Thread mThread = null;
     private Thread mThread2 = null;
     private Thread mThread3 = null;
     private Thread mThread4 = null;
-
-
+    public  String ans;
+    public  int chiakhoa;
+    public  int TNpoint;
     private ArrayList<ObserverInput> inputObservers = new ArrayList();
 
     private GameState mGameState;
-   // private SoundEngine mSoundEngine;
     Renderer mRenderer;
-    //ParticleSystem mParticleSystem;
-    //PhysicsEngine mPhysicsEngine;
     Level mLevel;
     public ArrayList<Bitmap> bitmapBG;
     public ArrayList<Bitmap> bitmap;
     public ArrayList<Question> questions;
-
+    public Question currentQuestion;
     private Context context;
     private Point size;
-    //private long frameStartTime;
-
+    private SharedPreferences.Editor mEditor;
 
     public GameEngine(Context context, Point size) {
         super(context);
@@ -48,21 +48,31 @@ class GameEngine extends SurfaceView
         bitmap = new ArrayList<>();
         bitmapBG = new ArrayList<>();
         questions = new ArrayList<>();
-        //frameStartTime = System.currentTimeMillis();
+        ans = "";
         mGameState = new GameState();
-      //  mSoundEngine = new SoundEngine(context);
         mRenderer = new Renderer(this);
-       // mPhysicsEngine = new PhysicsEngine();
-      //  mParticleSystem = new ParticleSystem();
-      //  mParticleSystem.init(1000);
-        bitmapBG.add(0,null);
-        bitmapBG.add(1,null);
-        bitmapBG.add(2,null);
-        bitmapBG.add(3,null);
-        bitmapBG.add(4,null);
-        bitmapBG.add(5,null);
-        bitmapBG.add(6,null);
-        bitmapBG.add(7,null);
+        //TNpoint = 0;
+        chiakhoa=0;
+        for(int i=0;i<8;i++){
+            bitmapBG.add(i,null);
+        }
+
+        // Get the current high score
+        SharedPreferences prefs;
+        prefs = context.getSharedPreferences("HiScore",
+                Context.MODE_PRIVATE);
+        // Initialize the mEditor ready
+        mEditor = prefs.edit();
+
+        TNpoint = prefs.getInt("hi_score", 0);
+    }
+
+    public void checkQues() {
+        Random randGenerator = new Random();
+        int ourRandomNumber = randGenerator.nextInt(619) + 1;
+        if(questions.get(ourRandomNumber) != null){
+            currentQuestion = questions.get(ourRandomNumber);
+        }
     }
 
     GameEngine getInstance(){
@@ -71,50 +81,26 @@ class GameEngine extends SurfaceView
 
 
     private void setupQuestion() {
-        ArrayList<String> question = getQuestionOutSide();
-       // questions = new Question[3][10];
-        questions.add(initializeQuestion(question.get(0)));
-        questions.add(initializeQuestion(question.get(1)));
-        questions.add(initializeQuestion(question.get(2)));
-        questions.add(initializeQuestion(question.get(3)));
-        questions.add(initializeQuestion(question.get(4)));
-        questions.add(initializeQuestion(question.get(5)));
-        questions.add(initializeQuestion(question.get(6)));
-        questions.add(initializeQuestion(question.get(7)));
-        questions.add(initializeQuestion(question.get(8)));
-        questions.add(initializeQuestion(question.get(9)));
+        ArrayList<String> Sans = GetAns();
+        ArrayList<String> Squestion = GetQuestion();
 
-        questions.add(initializeQuestion(question.get(10)));
-        questions.add(initializeQuestion(question.get(11)));
-        questions.add(initializeQuestion(question.get(12)));
-        questions.add(initializeQuestion(question.get(13)));
-        questions.add(initializeQuestion(question.get(14)));
-        questions.add(initializeQuestion(question.get(15)));
-        questions.add(initializeQuestion(question.get(16)));
-        questions.add(initializeQuestion(question.get(17)));
-        questions.add(initializeQuestion(question.get(18)));
-        questions.add(initializeQuestion(question.get(19)));
+        ArrayList<String> Squestion2 = combine(Squestion,Sans);
+        for(int i=0;i<Squestion2.size();i++) {
+            questions.add(initializeQuestion(Squestion2.get(i)));
+        }
 
-        questions.add(initializeQuestion(question.get(20)));
-        questions.add(initializeQuestion(question.get(21)));
-        questions.add(initializeQuestion(question.get(22)));
-        questions.add(initializeQuestion(question.get(23)));
-        questions.add(initializeQuestion(question.get(24)));
-        questions.add(initializeQuestion(question.get(25)));
-        questions.add(initializeQuestion(question.get(26)));
-        questions.add(initializeQuestion(question.get(27)));
-        questions.add(initializeQuestion(question.get(28)));
-        questions.add(initializeQuestion(question.get(29)));
-        /*for(int j = 0; j < 3; j++) {
-            for (int i = 0; i < 10; i++) {
+    }
 
-            }
-        }*/
+    private ArrayList<String> combine(ArrayList<String> squestion, ArrayList<String> sans) {
+        ArrayList<String> ques = new ArrayList<>();
+        for(int i=0;i<squestion.size();i++) {
+            ques.add(squestion.get(i) + sans.get(i));
+        }
+        return ques;
     }
 
     private Question initializeQuestion(String str) {
         Question ques = new Question();
-        // str --> ques~op1~op2~op3~op4~1
         String[] arr = str.split("~");
         ques.question = arr[0];
         ques.option1 = arr[1];
@@ -125,48 +111,79 @@ class GameEngine extends SurfaceView
         return ques;
     }
 
-    private ArrayList<String> getQuestionOutSide() {
-        ArrayList<String> str = new ArrayList<>();
-
-        /* CO BAN */
-        str.add("ques1~A1~B1~C1~D1~1");
-        str.add("ques2~A2~B2~C2~D2~1");
-        str.add("ques3~A3~B3~C3~D3~1");
-        str.add("ques4~A4~B4~C4~D4~1");
-        str.add("ques5~A3~B3~C3~D3~1");
-        str.add("ques6~A3~B3~C3~D3~1");
-        str.add( "ques7~A3~B3~C3~D3~1");
-        str.add( "ques8~A3~B3~C3~D3~1");
-        str.add( "ques9~A3~B3~C3~D3~1");
-        str.add( "ques10~A3~B3~C3~D3~1");
-
-        /* TRUNG CAP */
-        str.add( "ques11~A1~B1~C1~D1~1");
-        str.add( "ques12~A2~B2~C2~D2~1");
-        str.add( "ques13~A3~B3~C3~D3~1");
-        str.add("ques14~A3~B3~C3~D3~1");
-        str.add( "ques15~A3~B3~C3~D3~1");
-        str.add( "ques16~A3~B3~C3~D3~1");
-        str.add( "ques17~A3~B3~C3~D3~1");
-        str.add( "ques18~A3~B3~C3~D3~1");
-        str.add( "ques19~A3~B3~C3~D3~1");
-        str.add("ques20~A3~B3~C3~D3~1");
-
-        /* CAO CAP */
-        str.add("ques21~A1~B1~C1~D1~1");
-        str.add( "ques22~A2~B2~C2~D2~1");
-        str.add( "ques23~A3~B3~C3~D3~1");
-        str.add( "ques24~A3~B3~C3~D3~1");
-        str.add( "ques25~A3~B3~C3~D3~1");
-        str.add( "ques26~A3~B3~C3~D3~1");
-        str.add( "ques27~A3~B3~C3~D3~1");
-        str.add( "ques28~A3~B3~C3~D3~1");
-        str.add( "ques29~A3~B3~C3~D3~1");
-        str.add( "ques30~A3~B3~C3~D3~1");
-
-        return str;
+    private ArrayList<String> GetQuestion() {
+        AssetManager am = context.getAssets();
+        InputStream input;
+        try {
+            String[] files = am.list("");
+            for (String file : files) {
+                if (file.equals("ques")) {
+                    input = am.open(file);
+                    String[] textline = read_text(input);
+                    ArrayList<String> question = CheckQues(textline);
+                    return question;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
+    private ArrayList<String> GetAns() {
+        AssetManager am = context.getAssets();
+        InputStream input;
+        try {
+            String[] files = am.list("");
+            for (String file : files) {
+                if (file.equals("answer")) {
+                    input = am.open(file);
+                    String[] textline = read_text(input);
+                    ArrayList<String> ans = CheckAns(textline);
+                    return ans;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private ArrayList<String> CheckAns(String[] textline) {
+        ArrayList<String> m = new ArrayList<String>();
+        for(int i=0;i<textline.length ; i++){
+            m.add(textline[i]);
+        }
+        return m;
+    }
+
+    private ArrayList<String> CheckQues(String[] textline) {
+        String question = "";
+        ArrayList<String> m = new ArrayList<String>();
+        for(int i=0;i<textline.length ; i++){
+            int last = textline[i].length() -1 ;
+
+            if(textline[i].equals("")||textline[i].equals("end")){
+              //  question = question;//  + ans.get(i);
+                m.add(question);
+                question = "";
+            }
+            else if(textline[i].charAt(last) == '?'|| textline[i].charAt(last) == '.'){
+                question = question + textline[i] + TOKEN;
+            }else{
+            }
+        }
+        return m;
+    }
+
+    private String[] read_text(InputStream input) throws IOException {
+        int size = input.available();
+        byte[] buffer = new byte[size];
+        input.read(buffer);
+        input.close();
+        String text = new String(buffer);
+        return text.split("\\r?\\n");
+    }
 
 
     Bitmap initializeBitmap(String NameBitmap, Context context,Point size) {
@@ -218,6 +235,14 @@ class GameEngine extends SurfaceView
     }
 
     public void stopThread() {
+
+       // if(mScore > mHighScore){
+         //   mHighScore = mScore;
+            // Save high score
+            mEditor.putInt("hi_score", TNpoint);
+            mEditor.commit();
+      //  }
+
         try {
             mThread.join();
         } catch (InterruptedException e) {
@@ -232,6 +257,7 @@ class GameEngine extends SurfaceView
         mThread2 = new Thread(() -> {
             GameEngine ge = getInstance();
             setupQuestion();
+            currentQuestion = questions.get(0);
             mLevel = new Level(context, new PointF(size.x, size.y), ge);
         });
 
@@ -288,4 +314,15 @@ class GameEngine extends SurfaceView
     }
 
 
+    public void setANS(String a) {
+        ans = a;
+    }
+
+    public boolean checkAns() {
+        if(ans.equals(currentQuestion.ans)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

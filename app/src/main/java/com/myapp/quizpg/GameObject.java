@@ -26,4 +26,8 @@ class GameObject {
 
     public void setBeginImage() {
     }
+
+    public void setText(String text) {
+        graphicsComponent.setText(text);
+    }
 }
