@@ -41,13 +41,13 @@ public class SpecCauNoiHay extends ObjectSpec{
                 Color.rgb(30, 252, 140),
                 Color.rgb(30, 34, 233),
                 (int)mScreenSize.x/50,
-                padding_x, padding_y,ge,null);
+                padding_x, padding_y,ge,null,topic);
 
         rects[1] = new myRect(null,x/8,y/8,(7*x)/8,(7*y)/8,
                 Color.rgb(255,255,255),
                 Color.rgb(2,195,6),
                 (int)mScreenSize.x/50,
-                padding_x, 0,ge,bitmap);
+                padding_x, 0,ge,bitmap,topic);
 
         Point d1 = new Point(7*x/8+padding_x,y/8+padding_y2);
         Point d2 = new Point(7*x/8+padding_x,7*y/8-padding_y2);
