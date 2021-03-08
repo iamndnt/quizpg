@@ -31,6 +31,11 @@ public class Triangle extends HinhHoc{
         bottom = diem2.y;
         right = diem3.x;
 
+         if (left > right) {
+            int temp = right;
+            right = left;
+            left = temp;
+        }
     }
 
     void drawTriangle(Canvas canvas){
