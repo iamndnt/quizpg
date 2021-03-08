@@ -29,13 +29,13 @@ public class SpecDiaglogInfor3 extends ObjectSpec{
                 Color.rgb(30, 252, 140),
                 Color.rgb(30, 34, 233),
                 (int)mScreenSize.x/50,
-                padding_x, padding_y,null,null);
+                padding_x, padding_y,null,null,topic);
 
         rects[1] = new myRect("CÂU HỎI KẾ TIẾP",3*x/8 ,(5*y)/8 ,5*x/8 ,(3*y)/4,
                 Color.rgb(11, 7, 238),
                 Color.rgb(11, 247, 4),
                 (int)mScreenSize.x/50,
-                padding_x*2, padding_y,null,null);
+                padding_x*2, padding_y,null,null,topic);
 
         controls = new ArrayList<>();
         controls.add(NEXTQUEST,rects[1]);
