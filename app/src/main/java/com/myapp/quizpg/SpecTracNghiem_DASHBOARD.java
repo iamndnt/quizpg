@@ -33,25 +33,25 @@ public class SpecTracNghiem_DASHBOARD extends ObjectSpec{
                 Color.argb(100,255,255,255),
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/50,
-                padding_x, padding_y,ge,null);
+                padding_x, padding_y,ge,null,topic);
 
         rects[1] = new myRect("TRUNG CẤP",x/4,y/4,(3*x)/4,y/2,
                 Color.argb(100,255,255,255),
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/50,
-                padding_x, padding_y,ge,null);
+                padding_x, padding_y,ge,null,topic);
 
         rects[2] = new myRect("ĐẠI HỌC",x/4,y/2,(3*x)/4,3*y/4,
                 Color.argb(100,255,255,255),
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/50,
-                padding_x, padding_y,ge,null);
+                padding_x, padding_y,ge,null,topic);
 
         rects[3] = new myRect("EXIT",x/4,3*y/4,3*x/4,y,
                 Color.argb(100,255,255,255),
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/50,
-                padding_x, padding_y,ge,null);
+                padding_x, padding_y,ge,null,topic);
 
         this.mScreenSize = mScreenSize;
         controls = new ArrayList<>();
