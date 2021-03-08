@@ -23,11 +23,12 @@ public class myRect extends HinhHoc{
     private int colorTextRect;
     private String label;
     private GameEngine ge;
-
+    private Bitmap dumpBitmap;
+    private String topic;
     myRect(String text, int l, int t, int r, int b,
            int colorRect, int colorTextRect,
            int textsize,
-           int paddingX, int paddingY,GameEngine ge, Bitmap bitmap){
+           int paddingX, int paddingY,GameEngine ge, Bitmap bitmap,String topic){
 
         this.text = text;
         this.label = text;
@@ -40,7 +41,8 @@ public class myRect extends HinhHoc{
         this.colorRect = colorRect;
         this.colorTextRect = colorTextRect;
         this.mTextFormatting = textsize;
-        Rectbitmap = bitmap;
+        dumpBitmap = bitmap;
+        this.topic = topic;
     }
     public void setText(String text) {
         this.text = text;
@@ -51,8 +53,22 @@ public class myRect extends HinhHoc{
         }
     }
 
+    void setQuesImage(){
+        if(topic.equals("hinhphat")){
+            Rectbitmap = ge.currentBitmap;
+        }else if(topic.equals("caunoihay")){
+            Rectbitmap = ge.currentBitmap1;
+        }
+
+    }
 
     void myDrawRect(Canvas canvas, Paint paint){
+
+        if(dumpBitmap != null){
+            setQuesImage();
+        }
+
+
         if(label!=null) {
             if (this.getLabel().equals("ĐIỂM: 0")) {
                 this.text = "Điểm: " + ge.TNpoint;
