@@ -39,22 +39,14 @@ public class InputCauNoiHay implements ComponentInput, ObserverInput{
                         gameState.setgd(gameState.GD_MAIN);
                         gameState.clearKey();
                     }
-                } else if (Previous.contains(x, y)) {
+                }else if (Previous.contains(x, y)) {
                     if (gameState.getgd() == gameState.GD_CAUNOIHAY) {
-                        KhungHinh.checkBitmap(index);
-                        index++;
-                        if(index == 10){
-                            index = 0;
-                        }
+                        ge.checkBitmap1(+1);
                         gameState.clearKey();
                     }
                 } else if (Next.contains(x, y)) {
                     if (gameState.getgd() == gameState.GD_CAUNOIHAY) {
-                        KhungHinh.checkBitmap(index);
-                        index--;
-                        if(index < 0){
-                            index = 9;
-                        }
+                        ge.checkBitmap1(-1);
                         gameState.clearKey();
                     }
                 }
