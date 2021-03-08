@@ -42,7 +42,7 @@ public class SpecMain extends ObjectSpec{
                 Color.argb(100,255,255,255),
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/35,
-                padding_x, padding_y,ge,null
+                padding_x, padding_y,ge,null,topic
         );
 
         rects[1] = new myRect(
@@ -54,7 +54,7 @@ public class SpecMain extends ObjectSpec{
                 Color.argb(100,255,255,255),
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/35,
-                padding_x, padding_y,ge,null
+                padding_x, padding_y,ge,null,topic
         );
 
         rects[2] = new myRect(
@@ -66,7 +66,7 @@ public class SpecMain extends ObjectSpec{
                 Color.argb(100,255,255,255),
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/35,
-                padding_x, padding_y,ge,null
+                padding_x, padding_y,ge,null,topic
         );
 
         rects[3] = new myRect(
@@ -78,7 +78,7 @@ public class SpecMain extends ObjectSpec{
                 Color.argb(100,255,255,255),
                 Color.rgb(0,0,0),
                 (int)mScreenSize.x/35,
-                padding_x, padding_y,ge,null
+                padding_x, padding_y,ge,null,topic
         );
 
         controls = new ArrayList<>();
