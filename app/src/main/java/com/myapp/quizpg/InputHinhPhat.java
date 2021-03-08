@@ -39,20 +39,12 @@ public class InputHinhPhat implements ComponentInput, ObserverInput{
                     }
                 } else if (Previous.contains(x, y)) {
                     if (gameState.getgd() == gameState.GD_HINHPHAT) {
-                        KhungHinh.checkBitmap(index);
-                        index++;
-                        if(index == 10){
-                            index = 0;
-                        }
+                        ge.checkBitmap(+1);
                         gameState.clearKey();
                     }
                 } else if (Next.contains(x, y)) {
                     if (gameState.getgd() == gameState.GD_HINHPHAT) {
-                        KhungHinh.checkBitmap(index);
-                        index--;
-                        if(index < 0){
-                            index = 9;
-                        }
+                        ge.checkBitmap(-1);
                         gameState.clearKey();
                     }
                 }
