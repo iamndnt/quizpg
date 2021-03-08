@@ -25,9 +25,12 @@ class GameEngine extends SurfaceView
     private Thread mThread2 = null;
     private Thread mThread3 = null;
     private Thread mThread4 = null;
+    private Thread mThread5 = null;
     public  String ans;
     public  int chiakhoa;
     public  int TNpoint;
+    private int indexBitmap;
+    private int indexBitmap1;
     private ArrayList<ObserverInput> inputObservers = new ArrayList();
 
     private GameState mGameState;
@@ -35,8 +38,11 @@ class GameEngine extends SurfaceView
     Level mLevel;
     public ArrayList<Bitmap> bitmapBG;
     public ArrayList<Bitmap> bitmap;
+    public ArrayList<Bitmap> bitmap1;
     public ArrayList<Question> questions;
     public Question currentQuestion;
+    public Bitmap currentBitmap;
+    public Bitmap currentBitmap1;
     private Context context;
     private Point size;
     private SharedPreferences.Editor mEditor;
@@ -46,17 +52,18 @@ class GameEngine extends SurfaceView
         this.context = context;
         this.size = size;
         bitmap = new ArrayList<>();
+        bitmap1 = new ArrayList<>();
         bitmapBG = new ArrayList<>();
         questions = new ArrayList<>();
         ans = "";
         mGameState = new GameState();
         mRenderer = new Renderer(this);
-        //TNpoint = 0;
+        indexBitmap = 0;
+        indexBitmap1 = 0;
         chiakhoa=0;
         for(int i=0;i<8;i++){
             bitmapBG.add(i,null);
         }
-
         // Get the current high score
         SharedPreferences prefs;
         prefs = context.getSharedPreferences("HiScore",
@@ -88,7 +95,6 @@ class GameEngine extends SurfaceView
         for(int i=0;i<Squestion2.size();i++) {
             questions.add(initializeQuestion(Squestion2.get(i)));
         }
-
     }
 
     private ArrayList<String> combine(ArrayList<String> squestion, ArrayList<String> sans) {
@@ -236,12 +242,8 @@ class GameEngine extends SurfaceView
 
     public void stopThread() {
 
-       // if(mScore > mHighScore){
-         //   mHighScore = mScore;
-            // Save high score
-            mEditor.putInt("hi_score", TNpoint);
-            mEditor.commit();
-      //  }
+        mEditor.putInt("hi_score", TNpoint);
+        mEditor.commit();
 
         try {
             mThread.join();
@@ -262,29 +264,48 @@ class GameEngine extends SurfaceView
         });
 
         mThread3 = new Thread(() -> {
-
             setUpBitmapHinhPhat(context,size);
         });
         mThread4 = new Thread(() -> {
-
             setUpBackground(context,size);
+        });
+        mThread5 = new Thread(() -> {
+            setUpBitmapCauNoiHay(context,size);
         });
 
         mThread.start();
         mThread2.start();
         mThread3.start();
         mThread4.start();
+        mThread5.start();
 
     }
 
+    private void setUpBitmapCauNoiHay(Context context, Point size) {
+        String[] NameBitmap = new String[10];
+
+        NameBitmap[0] = "caunoihay1";
+        NameBitmap[1] = "caunoihay2";
+        NameBitmap[2] = "caunoihay3";
+        NameBitmap[3] = "caunoihay4";
+        NameBitmap[4] = "caunoihay5";
+        NameBitmap[5] = "caunoihay6";
+        NameBitmap[6] = "caunoihay7";
+        NameBitmap[7] = "caunoihay8";
+        NameBitmap[8] = "caunoihay8";
+        NameBitmap[9] = "caunoihay10";
+
+        bitmap1.add(initializeBitmap(NameBitmap[0],context,size));
+        currentBitmap1 = bitmap1.get(0);
+        for(int i=1;i<10;i++){
+            bitmap1.add(initializeBitmap(NameBitmap[i],context,size));
+        }
+    }
 
 
     private void setUpBackground(Context context,Point size) {
 
         bitmapBG.add(0,initializeBitmap("background_main",context,size));
-       // bitmapBG.add(6,initializeBitmap("hinhbandau",context,size));
-       // bitmapBG.add(7,initializeBitmap("caunoihaybandau",context,size));
-
         bitmapBG.add(1,initializeBitmap("background_hinhphat",context,size));
         bitmapBG.add(2,initializeBitmap("background_tracnghiem",context,size));
         mGameState.setgd(GameState.GD_MAIN);
@@ -308,7 +329,9 @@ class GameEngine extends SurfaceView
         NameBitmap[8] = "hinhphat9";
         NameBitmap[9] = "hinhphat10";
 
-        for(int i=0;i<10;i++){
+        bitmap.add(initializeBitmap(NameBitmap[0],context,size));
+        currentBitmap = bitmap.get(0);
+        for(int i=1;i<10;i++){
             bitmap.add(initializeBitmap(NameBitmap[i],context,size));
         }
     }
@@ -324,5 +347,25 @@ class GameEngine extends SurfaceView
         }else{
             return false;
         }
+    }
+
+    public void checkBitmap(int i) {
+        indexBitmap = indexBitmap+i;
+        if(indexBitmap >= bitmap.size() ){
+            indexBitmap = 0;
+        }else if(indexBitmap < 0){
+            indexBitmap = bitmap.size()-1;
+        }
+        currentBitmap = bitmap.get(indexBitmap);
+    }
+
+    public void checkBitmap1(int i) {
+        indexBitmap1 = indexBitmap1+i;
+        if(indexBitmap1 >= bitmap1.size() ){
+            indexBitmap1 = 0;
+        }else if(indexBitmap1 < 0){
+            indexBitmap1 = bitmap1.size()-1;
+        }
+        currentBitmap1 = bitmap1.get(indexBitmap1);
     }
 }
