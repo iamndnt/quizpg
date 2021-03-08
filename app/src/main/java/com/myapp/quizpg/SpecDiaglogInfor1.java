@@ -29,19 +29,19 @@ public class SpecDiaglogInfor1 extends ObjectSpec{
                 Color.rgb(30, 252, 140),
                 Color.rgb(30, 34, 233),
                 (int)mScreenSize.x/50,
-                padding_x, padding_y,null,null);
+                padding_x, padding_y,null,null,topic);
 
         rects[1] = new myRect("CHẮC CHẮN",x/4 ,(5*y)/8 ,x/2 ,(3*y)/4,
                 Color.rgb(11, 7, 238),
                 Color.rgb(11, 247, 4),
                 (int)mScreenSize.x/50,
-                padding_x*2, padding_y,null,null);
+                padding_x*2, padding_y,null,null,topic);
 
         rects[2] = new myRect("CHƯA",x/2 ,(5*y)/8 ,(3*x)/4 ,(3*y)/4,
                 Color.rgb(11, 7, 238),
                 Color.rgb(11, 247, 4),
                 (int)mScreenSize.x/50,
-                padding_x*2, padding_y,null,null);
+                padding_x*2, padding_y,null,null,topic);
 
         controls = new ArrayList<>();
         controls.add(CHACROI,rects[1]);
