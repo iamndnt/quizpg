@@ -1,70 +1,27 @@
 package com.myapp.quizphatgiao;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.TextView;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.FullScreenContentCallback;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.RequestConfiguration;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class MainActivity extends Activity {
     private static final int REQUEST_CODE_QUIZ = 1;
-    private InterstitialAd interstitialAd;
+    //private InterstitialAd interstitialAd;
+   // MyInterstitialAd admod;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        List<String> testDeviceIds = Arrays.asList("CD4E30E5F4354920CDD75883A564C997");
-        RequestConfiguration configuration =
-                new RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build();
-        MobileAds.setRequestConfiguration(configuration);
-
-        // Create a full screen content callback.
-        FullScreenContentCallback fullScreenContentCallback = new FullScreenContentCallback() {
-            @Override
-            public void onAdDismissedFullScreenContent() {
-                interstitialAd = null;
-                // Proceed to the next level.
-                //goToNextLevel();
-            }
-        };
-
-        InterstitialAd.load(
-                this,
+      /*  admod = new MyInterstitialAd("07CC7E40850ABA2DF210A2D2564CAD76",
                 "ca-app-pub-8404443559572571/3715462075",
-                new AdRequest.Builder().build(),
-                new InterstitialAdLoadCallback() {
-                    @Override
-                    public void onAdLoaded(@NonNull InterstitialAd ad) {
-                        interstitialAd = ad;
-                        interstitialAd.setFullScreenContentCallback(fullScreenContentCallback);
-                        Log.d("cuong","onhere1");
-                    }
-
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError adError) {
-                        // Code to be executed when an ad request fails.
-                        Log.d("cuong","onhere2");
-                    }
-                });
+                this);*/
 
 
         Button nextLevelButton = findViewById(R.id.Main);
@@ -87,14 +44,7 @@ public class MainActivity extends Activity {
 
 
     void setAds(){
-        if (interstitialAd != null) {
-            interstitialAd.show(MainActivity.this);
-            Log.d("cuong","onhere3");
-        } else {
-            // Proceed to the next level.
-            //goToNextLevel();
-
-        }
+       // admod.load_ad(this);
     }
 
     @Override

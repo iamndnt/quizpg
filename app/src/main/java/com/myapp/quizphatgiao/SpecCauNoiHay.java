@@ -37,8 +37,8 @@ public class SpecCauNoiHay extends ObjectSpec{
         color = Color.rgb(0,227,0);
         bitmap = initializeBitmap("caunoihaybandau",context,new Point(x,y));
 
-        rects[0] = new myRect("EXIT",(3*x)/8 ,(7*y)/8 ,(5*x)/8 ,(y),
-                Color.rgb(30, 252, 140),
+        rects[0] = new myRect("THOÁT RA",(3*x)/8 ,(7*y)/8 ,(5*x)/8 ,(y),
+                Color.argb(100,255,255,255),
                 Color.rgb(30, 34, 233),
                 (int)mScreenSize.x/50,
                 padding_x, padding_y,ge,null,topic);
@@ -52,12 +52,12 @@ public class SpecCauNoiHay extends ObjectSpec{
         Point d1 = new Point(7*x/8+padding_x,y/8+padding_y2);
         Point d2 = new Point(7*x/8+padding_x,7*y/8-padding_y2);
         Point d3 = new Point(x-padding_x,y/2);
-        triangles[0] = new Triangle(d1,d2,d3,Color.rgb(30, 252, 140));
+        triangles[0] = new Triangle(d1,d2,d3,Color.argb(100,255,255,255));
 
         d1 = new Point(x/8-padding_x,y/8+padding_y2);
         d2 = new Point(x/8-padding_x,7*y/8-padding_y2);
         d3 = new Point(0+padding_x,y/2);
-        triangles[1] = new Triangle(d1,d2,d3,Color.rgb(30, 252, 140));
+        triangles[1] = new Triangle(d1,d2,d3,Color.argb(100,255,255,255));
 
         controls = new ArrayList<>();
         controls.add(EXIT,rects[0]);
