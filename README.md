@@ -3,7 +3,7 @@
 + one activity will have 1 (view)  
 + (view) can be (imageview), (surfaceview)  
 + (groupview) take care to positioned (view)  
-+ (view( is different with (surfaceview), (view) is parent of (surfaceview)  
++ (view) is different with (surfaceview), (view) is parent of (surfaceview)  
   - if we want to animate (view) use (invalidate)   
   - (surfaceview) use (thread) to draw its will exactly on milisecond  
 
