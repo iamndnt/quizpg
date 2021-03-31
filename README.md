@@ -1,6 +1,6 @@
 # quizpg
 
-+ one activity will have 1 <view>  
++ one activity will have 1 (view)  
 + <view> can be <imageview>, <surfaceview>  
 + <groupview> take care to positioned <view>  
 + <view> is different with <surfaceview>, <view> is parent of <surfaceview>  
