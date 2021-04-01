@@ -10,61 +10,65 @@
 + "lovetest233" - show how (animator) translate object <imageview> from x0 -> x1 horizontal
 + "caro" - show how animator animate as (frame) according to time
 
-package com.example.main;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.view.View;
+below class help us draw many drawable object on 1 view
 
-public class myView extends View {
-    private Rect rect1;
-    private Rect rect2;
+public class ViewLayer extends View {
 
-    private Paint paint;
-    private Bitmap bitmap1;
-    private Bitmap bitmap2;
+    private LayerDrawable drawables;
 
-    public myView(Context context) {
+    public ViewLayer(Context context, Bitmap bitmap1, Bitmap bitmap2) {
         super(context);
-        rect1 = new Rect(300,300,600,900);
-        rect2 = new Rect(900,300,1200,900);
-        paint = new Paint();
-        int resID = context.getResources()
-                .getIdentifier("poker1",
-                        "drawable",
-                        context.getPackageName());
-        bitmap1 = BitmapFactory.decodeResource(
-                context.getResources(), resID);
+        Drawable space = new BitmapDrawable(context.getResources(), bitmap1);
+        Drawable moon = new BitmapDrawable(context.getResources(), bitmap2);
+       // space.setBounds(0,0,300,600);
+       // moon.setBounds(0,0,900,600);
 
-        int resID2 = context.getResources().getIdentifier("poker2","drawable",context.getPackageName());
-        bitmap2 = BitmapFactory.decodeResource(context.getResources(),resID2);
-
-     /*   bitmap1 = Bitmap
-                .createScaledBitmap(bitmap1,
-                        300, 600,
-                        false);
-
-        bitmap2 = Bitmap
-                .createScaledBitmap(bitmap2,
-                        300, 600,
-                        false);*/
-
-
+        Drawable[] bodies = {space,moon};
+        drawables = new LayerDrawable(bodies);
+        drawables.setLayerInset(0,0,0,300,600);
+        drawables.setLayerInset(1,0,0,900,600);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        canvas.drawColor(Color.WHITE);
-        canvas.drawRect(rect1,paint);
-        canvas.drawRect(rect2,paint);
-        canvas.drawBitmap(bitmap1,null,rect1,paint);
-        canvas.drawBitmap(bitmap2,null,rect2,paint);
-
+        drawables.draw(canvas);
     }
 }
+
+layerDrawable inset will help us inset drawable inside another drawable
+
+public class ViewDrawable extends LayerDrawable {
+
+
+	public static ViewDrawable Create(Context context, Bitmap bitmap)
+	{
+
+		Drawable space = new BitmapDrawable(context.getResources(), bitmap);
+		Drawable space1 = new BitmapDrawable(context.getResources(), bitmap);
+		Drawable[] bodies = {space,space1};
+		ViewDrawable myOrrery = new ViewDrawable(bodies);
+
+		myOrrery.setLayerInset(
+				0,0,0,0,0);
+		myOrrery.setLayerInset(
+				1,500,500,400,400);
+		return myOrrery;
+	}
+
+
+
+	private ViewDrawable(Drawable[] bodies)
+	{
+		super(bodies);
+	}
+
+}
+
+Bitmap bitmap = takeBitmap(this,size,"ball");
+        ViewDrawable o = ViewDrawable.Create(this,bitmap);
+        imageView.setImageDrawable(o);
+        imageView.setScaleType(ImageView.ScaleType.FIT_START);
+        setContentView(imageView);
+        
+        
