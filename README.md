@@ -71,4 +71,182 @@ Bitmap bitmap = takeBitmap(this,size,"ball");
         imageView.setScaleType(ImageView.ScaleType.FIT_START);
         setContentView(imageView);
         
-        
+
+
+package com.example.main;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.CountDownTimer;
+import android.view.MotionEvent;
+import android.view.View;
+
+public class FrameAnmation extends View {
+
+    private Drawable drawable;
+    private Rect rect;
+    private Thread thread;
+    private int animation;
+    private CountDownTimer countDownTimer;
+    private int stage;
+    private Context context;
+    private Drawable[] drawables;
+    private ViewInterface viewInterface;
+    private Bitmap[] bitmap;
+
+    private int index;
+    public FrameAnmation(Context context, Bitmap[] bitmap,Drawable[] drawables, ViewInterface viewInterface) {
+        super(context);
+        this.viewInterface = viewInterface;
+        this.bitmap = bitmap;
+        this.drawables = drawables;
+        drawable = new BitmapDrawable(context.getResources(), bitmap[3]);
+        rect = new Rect(0,0,300,600);
+        drawable.setBounds(rect);
+        index = 0;
+
+        countDownTimer =  new CountDownTimer(3000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                if(index<3) {
+                    index++;
+                    Drawable idrawable = new BitmapDrawable(context.getResources(), bitmap[index]);
+                    idrawable.setBounds(rect);
+                    drawable = idrawable;
+                    invalidate();
+                }
+            }
+
+            public void onFinish() {
+                //drawable.setBounds(300,0,600,600);
+                //invalidate();
+                //stage = 1;
+            }
+        };
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        int i = event.getActionIndex();
+        int x = (int) event.getX(i);
+        int y = (int) event.getY(i);
+        int eventType = event.getAction() & MotionEvent.ACTION_MASK;
+        if (eventType == MotionEvent.ACTION_UP || eventType == MotionEvent.ACTION_POINTER_UP) {
+            if (rect.contains(x, y)) {
+                countDownTimer.start();
+            }
+        }
+        return true;
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        drawable.draw(canvas);
+    }
+}
+
+
+
+animation view
+
+package com.example.main;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.graphics.drawable.AnimatedImageDrawable;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.os.CountDownTimer;
+import android.view.MotionEvent;
+import android.view.View;
+
+public class animatorDraw extends View implements Runnable{
+
+    private Drawable drawable;
+    private Rect rect;
+    private Thread thread;
+    private int animation;
+    private CountDownTimer countDownTimer;
+    private int stage;
+
+    public animatorDraw(Context context, Bitmap bitmap1) {
+        super(context);
+        drawable = new BitmapDrawable(context.getResources(), bitmap1);
+        rect = new Rect(0,0,300,600);
+
+
+        drawable.setBounds(rect);
+
+
+
+        thread = new Thread();
+        stage = 0;
+
+        countDownTimer =  new CountDownTimer(2000, 10) {
+
+            public void onTick(long millisUntilFinished) {
+                rect.set(0+animation,0,300+animation,600);
+                drawable.setBounds(rect);
+                animation = animation+10;
+                invalidate();
+            }
+
+            public void onFinish() {
+                //drawable.setBounds(300,0,600,600);
+                //invalidate();
+                stage = 1;
+            }
+        };
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        int i = event.getActionIndex();
+        int x = (int) event.getX(i);
+        int y = (int) event.getY(i);
+        int eventType = event.getAction() & MotionEvent.ACTION_MASK;
+        if (eventType == MotionEvent.ACTION_UP || eventType == MotionEvent.ACTION_POINTER_UP) {
+            if (rect.contains(x, y)) {
+                /* animation here */
+                if(stage==0){
+                    countDownTimer.start();
+                }else if(stage == 1){
+                    /* open cards */
+
+                    rect.set(0,0,300,600);
+                    drawable.setBounds(rect);
+                    invalidate();
+                }else{
+                    rect.set(100,0,300,600);
+                    drawable.setBounds(rect);
+                    invalidate();
+                }
+
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        drawable.draw(canvas);
+    }
+
+    @Override
+    public void run() {
+
+    }
+}
+
