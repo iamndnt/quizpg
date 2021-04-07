@@ -250,3 +250,69 @@ public class animatorDraw extends View implements Runnable{
     }
 }
 
+new 
+
+package com.example.main;
+
+import android.content.Context;
+import android.graphics.Point;
+import android.view.View;
+import android.view.ViewGroup;
+
+public class CustomLayout extends ViewGroup {
+    private Point size;
+    private int x,y,rate;
+    private View[] child;
+    public CustomLayout(Context context, Point size) {
+        super(context);
+        this.size = size;
+        this.x = size.x;
+        this.y = size.y;
+        rate = 10;
+        child = new View[16];
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+
+        child[0] = getChildAt(0);
+        setView1(child[0],l,t,r,b);
+
+        for(int i=1;i<16;i++) {
+            child[i] = getChildAt(i);
+        }
+        setView1(child[1],(8*x)/rate,(y*1)/rate,x,(y*2)/rate);
+        setView1(child[2],(8*x)/rate,(y*2)/rate,x,(y*3)/rate);
+        setView1(child[3],(8*x)/rate,(y*3)/rate,x,(y*4)/rate);
+        setView1(child[4],(8*x)/rate,(y*4)/rate,x,(y*5)/rate);
+        setView1(child[5],(8*x)/rate,(y*5)/rate,x,(y*6)/rate);
+        setView1(child[6],(8*x)/rate,(y*6)/rate,x,(y*7)/rate);
+        setView1(child[7],(8*x)/rate,(y*7)/rate,x,(y*8)/rate);
+        setView1(child[8],(8*x)/rate,(y*8)/rate,x,(y*9)/rate);
+
+        setView1(child[9],(x*1)/rate,0,(x*2)/rate,(y*1)/rate);
+        setView1(child[10],(x*3)/rate,0,(x*5)/rate,(y*1)/rate);
+
+        setView1(child[11],(x*1)/rate,(y*2)/rate,(x*8)/rate,(y*5)/rate);
+
+        setView1(child[12],(x*1)/rate,(y*5)/rate,(x*4)/rate,(y*7)/rate);
+        setView1(child[13],(x*1)/rate,(y*7)/rate,(x*4)/rate,(y*9)/rate);
+        setView1(child[14],(x*4)/rate,(y*5)/rate,(x*8)/rate,(y*7)/rate);
+        setView1(child[15],(x*4)/rate,(y*7)/rate,(x*8)/rate,(y*9)/rate);
+
+
+    }
+
+    private void setView1(View child,int l, int t, int r, int b) {
+        child.layout(l,t,r,b);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        setMeasuredDimension(size.x,size.y);
+    }
+
+
+}
+
+
