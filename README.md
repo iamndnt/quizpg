@@ -316,3 +316,29 @@ public class CustomLayout extends ViewGroup {
 }
 
 
+CustomLayout customLayout = new CustomLayout(this,size);
+
+        BGView bgView = new BGView(this);
+        customLayout.addView(bgView);
+       // setContentView(bgView);
+
+        TextView[] tview = new TextView[15];
+        GradientDrawable border = new GradientDrawable();
+
+        for(int i=0;i<tview.length;i++){
+            tview[i] = new TextView(this);
+            tview[i].setText("view: "+i);
+
+
+            border.setColor(Color.argb(100,255,255,255)); //white background
+            border.setStroke(1, 0xFF000000); //black border with full opacity
+            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                tview[i].setBackgroundDrawable(border);
+            } else {
+                tview[i].setBackground(border);
+            }
+
+
+            customLayout.addView(tview[i]);
+        }
+        setContentView(customLayout);
