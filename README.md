@@ -1,344 +1,187 @@
-# quizpg
-
-+ one activity will have 1 (view)  
-+ (view) can be (imageview), (surfaceview)  
-+ (groupview) take care to positioned (view)  
-+ (view) is different with (surfaceview), (view) is parent of (surfaceview)  
-  - if we want to animate (view) use (invalidate)   
-  - (surfaceview) use (thread) to draw its will exactly on milisecond  
-
-+ "lovetest233" - show how (animator) translate object <imageview> from x0 -> x1 horizontal
-+ "caro" - show how animator animate as (frame) according to time
-
-
-below class help us draw many drawable object on 1 view
-
-public class ViewLayer extends View {
-
-    private LayerDrawable drawables;
-
-    public ViewLayer(Context context, Bitmap bitmap1, Bitmap bitmap2) {
-        super(context);
-        Drawable space = new BitmapDrawable(context.getResources(), bitmap1);
-        Drawable moon = new BitmapDrawable(context.getResources(), bitmap2);
-       // space.setBounds(0,0,300,600);
-       // moon.setBounds(0,0,900,600);
-
-        Drawable[] bodies = {space,moon};
-        drawables = new LayerDrawable(bodies);
-        drawables.setLayerInset(0,0,0,300,600);
-        drawables.setLayerInset(1,0,0,900,600);
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        drawables.draw(canvas);
-    }
-}
-
-layerDrawable inset will help us inset drawable inside another drawable
-
-public class ViewDrawable extends LayerDrawable {
-
-
-	public static ViewDrawable Create(Context context, Bitmap bitmap)
-	{
-
-		Drawable space = new BitmapDrawable(context.getResources(), bitmap);
-		Drawable space1 = new BitmapDrawable(context.getResources(), bitmap);
-		Drawable[] bodies = {space,space1};
-		ViewDrawable myOrrery = new ViewDrawable(bodies);
-
-		myOrrery.setLayerInset(
-				0,0,0,0,0);
-		myOrrery.setLayerInset(
-				1,500,500,400,400);
-		return myOrrery;
-	}
-
-
-
-	private ViewDrawable(Drawable[] bodies)
-	{
-		super(bodies);
-	}
-
-}
-
-Bitmap bitmap = takeBitmap(this,size,"ball");
-        ViewDrawable o = ViewDrawable.Create(this,bitmap);
-        imageView.setImageDrawable(o);
-        imageView.setScaleType(ImageView.ScaleType.FIT_START);
-        setContentView(imageView);
-        
-
-
-package com.example.main;
-
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.CountDownTimer;
-import android.view.MotionEvent;
-import android.view.View;
-
-public class FrameAnmation extends View {
-
-    private Drawable drawable;
-    private Rect rect;
-    private Thread thread;
-    private int animation;
-    private CountDownTimer countDownTimer;
-    private int stage;
-    private Context context;
-    private Drawable[] drawables;
-    private ViewInterface viewInterface;
-    private Bitmap[] bitmap;
-
-    private int index;
-    public FrameAnmation(Context context, Bitmap[] bitmap,Drawable[] drawables, ViewInterface viewInterface) {
-        super(context);
-        this.viewInterface = viewInterface;
-        this.bitmap = bitmap;
-        this.drawables = drawables;
-        drawable = new BitmapDrawable(context.getResources(), bitmap[3]);
-        rect = new Rect(0,0,300,600);
-        drawable.setBounds(rect);
-        index = 0;
-
-        countDownTimer =  new CountDownTimer(3000, 1000) {
-            public void onTick(long millisUntilFinished) {
-                if(index<3) {
-                    index++;
-                    Drawable idrawable = new BitmapDrawable(context.getResources(), bitmap[index]);
-                    idrawable.setBounds(rect);
-                    drawable = idrawable;
-                    invalidate();
-                }
-            }
-
-            public void onFinish() {
-                //drawable.setBounds(300,0,600,600);
-                //invalidate();
-                //stage = 1;
-            }
-        };
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        int i = event.getActionIndex();
-        int x = (int) event.getX(i);
-        int y = (int) event.getY(i);
-        int eventType = event.getAction() & MotionEvent.ACTION_MASK;
-        if (eventType == MotionEvent.ACTION_UP || eventType == MotionEvent.ACTION_POINTER_UP) {
-            if (rect.contains(x, y)) {
-                countDownTimer.start();
-            }
-        }
-        return true;
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        drawable.draw(canvas);
-    }
-}
-
-
-
-animation view
-
-package com.example.main;
+package com.myapp.azure2;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.drawable.AnimatedImageDrawable;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.graphics.RectF;
 import android.graphics.drawable.LayerDrawable;
-import android.os.CountDownTimer;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 
-public class animatorDraw extends View implements Runnable{
+public class ViewStartGame extends SurfaceView implements Runnable {
 
-    private Drawable drawable;
-    private Rect rect;
-    private Thread thread;
-    private int animation;
-    private CountDownTimer countDownTimer;
-    private int stage;
+    private RectF nv_chinh,traitim, viendan;
+    Paint paint1,paint2,paint3;
+    private SurfaceHolder mSurfaceHolder;
+    Thread mThread;
+    private Canvas canvas;
+    private Paint mPaint;
+    private long mNextFrameTime;
+    long v,locationy1,locationy2,locationy3,locationy4,locationy5,locationy6,locationy7,locationy8,location11,location12;
+    int below,right;
+    boolean up,up2,fire,win;
 
-    public animatorDraw(Context context, Bitmap bitmap1) {
+    public ViewStartGame(Context context,  Point size) {
         super(context);
-        drawable = new BitmapDrawable(context.getResources(), bitmap1);
-        rect = new Rect(0,0,300,600);
+        nv_chinh = new RectF(100,100,200,200);
+        viendan = new RectF(130,130,160,160);
+        traitim = new RectF(1200,700,1300,800);
+        paint1 = new Paint();
+        right = size.x;
+        below = size.y;
+        up = false;
+        up2 = false;
+        fire = false;
+        win = false;
+        location11 = 100;
+        location12 = 200;
+        locationy1 = 100;
+        locationy2 = 200;
+        locationy3 = 130;
+        locationy4 = 160;
+        locationy5 = 130;
+        locationy6 = 160;
+        locationy7 = 700;
+        locationy8 = 800;
 
-
-        drawable.setBounds(rect);
-
-
-
-        thread = new Thread();
-        stage = 0;
-
-        countDownTimer =  new CountDownTimer(2000, 10) {
-
-            public void onTick(long millisUntilFinished) {
-                rect.set(0+animation,0,300+animation,600);
-                drawable.setBounds(rect);
-                animation = animation+10;
-                invalidate();
-            }
-
-            public void onFinish() {
-                //drawable.setBounds(300,0,600,600);
-                //invalidate();
-                stage = 1;
-            }
-        };
+        paint1.setColor(Color.YELLOW);
+        paint2 = new Paint();
+        paint2.setColor(Color.BLACK);
+        paint3 = new Paint();
+        paint3.setColor(Color.RED);
+        mSurfaceHolder = this.getHolder();
+        mThread = new Thread(this);
+        //mFPS=1;
+        v = 5;
+        mThread.start();
+        paint2.setTextSize(20f);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
 
-        int i = event.getActionIndex();
-        int x = (int) event.getX(i);
-        int y = (int) event.getY(i);
-        int eventType = event.getAction() & MotionEvent.ACTION_MASK;
-        if (eventType == MotionEvent.ACTION_UP || eventType == MotionEvent.ACTION_POINTER_UP) {
-            if (rect.contains(x, y)) {
-                /* animation here */
-                if(stage==0){
-                    countDownTimer.start();
-                }else if(stage == 1){
-                    /* open cards */
-
-                    rect.set(0,0,300,600);
-                    drawable.setBounds(rect);
-                    invalidate();
-                }else{
-                    rect.set(100,0,300,600);
-                    drawable.setBounds(rect);
-                    invalidate();
-                }
-
-            }
-        }
-
-        return true;
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        drawable.draw(canvas);
-    }
 
     @Override
     public void run() {
+        while(true) {
+            if (mSurfaceHolder.getSurface().isValid()) {
 
-    }
-}
 
-new 
+                canvas = mSurfaceHolder.lockCanvas();
+                canvas.drawColor(Color.WHITE);
+                if (updateRequired()) {
+                    update();
+                }
+                canvas.drawRect(nv_chinh, paint1);
+                canvas.drawRect(viendan, paint2);
+                canvas.drawRect(traitim, paint3);
 
-package com.example.main;
+                if(win){
+                    canvas.drawText("WIN !!!", 500, 500, paint2);
+                }else {
+                    canvas.drawText("pos: " + locationy2 + " " + right, 500, 500, paint2);
+                }
 
-import android.content.Context;
-import android.graphics.Point;
-import android.view.View;
-import android.view.ViewGroup;
-
-public class CustomLayout extends ViewGroup {
-    private Point size;
-    private int x,y,rate;
-    private View[] child;
-    public CustomLayout(Context context, Point size) {
-        super(context);
-        this.size = size;
-        this.x = size.x;
-        this.y = size.y;
-        rate = 10;
-        child = new View[16];
-    }
-
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-
-        child[0] = getChildAt(0);
-        setView1(child[0],l,t,r,b);
-
-        for(int i=1;i<16;i++) {
-            child[i] = getChildAt(i);
+                mSurfaceHolder.unlockCanvasAndPost(canvas);
+            }
         }
-        setView1(child[1],(8*x)/rate,(y*1)/rate,x,(y*2)/rate);
-        setView1(child[2],(8*x)/rate,(y*2)/rate,x,(y*3)/rate);
-        setView1(child[3],(8*x)/rate,(y*3)/rate,x,(y*4)/rate);
-        setView1(child[4],(8*x)/rate,(y*4)/rate,x,(y*5)/rate);
-        setView1(child[5],(8*x)/rate,(y*5)/rate,x,(y*6)/rate);
-        setView1(child[6],(8*x)/rate,(y*6)/rate,x,(y*7)/rate);
-        setView1(child[7],(8*x)/rate,(y*7)/rate,x,(y*8)/rate);
-        setView1(child[8],(8*x)/rate,(y*8)/rate,x,(y*9)/rate);
-
-        setView1(child[9],(x*1)/rate,0,(x*2)/rate,(y*1)/rate);
-        setView1(child[10],(x*3)/rate,0,(x*5)/rate,(y*1)/rate);
-
-        setView1(child[11],(x*1)/rate,(y*2)/rate,(x*8)/rate,(y*5)/rate);
-
-        setView1(child[12],(x*1)/rate,(y*5)/rate,(x*4)/rate,(y*7)/rate);
-        setView1(child[13],(x*1)/rate,(y*7)/rate,(x*4)/rate,(y*9)/rate);
-        setView1(child[14],(x*4)/rate,(y*5)/rate,(x*8)/rate,(y*7)/rate);
-        setView1(child[15],(x*4)/rate,(y*7)/rate,(x*8)/rate,(y*9)/rate);
-
-
-    }
-
-    private void setView1(View child,int l, int t, int r, int b) {
-        child.layout(l,t,r,b);
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(size.x,size.y);
+    public boolean onTouchEvent(MotionEvent event) {
+
+        fire = true;
+
+        return true;
     }
 
+    // Check to see if it is time for an update
+    public boolean updateRequired() {
 
-}
+        // Run at 10 frames per second
+        final long TARGET_FPS = 24;
+        // There are 1000 milliseconds in a second
+        final long MILLIS_PER_SECOND = 1000;
 
+        // Are we due to update the frame
+        if(mNextFrameTime <= System.currentTimeMillis()){
+            // Tenth of a second has passed
 
-CustomLayout customLayout = new CustomLayout(this,size);
+            // Setup when the next update will be triggered
+            mNextFrameTime =System.currentTimeMillis()
+                    + MILLIS_PER_SECOND / TARGET_FPS;
 
-        BGView bgView = new BGView(this);
-        customLayout.addView(bgView);
-       // setContentView(bgView);
+            // Return true so that the update and draw
+            // methods are executed
+            return true;
+        }
 
-        TextView[] tview = new TextView[15];
-        GradientDrawable border = new GradientDrawable();
+        return false;
+    }
 
-        for(int i=0;i<tview.length;i++){
-            tview[i] = new TextView(this);
-            tview[i].setText("view: "+i);
+    private void update() {
+        nv_chinh.set(location11,locationy1,location12,locationy2);
+        viendan .set(locationy5,locationy3,locationy6,locationy4);
+        traitim .set(1200,locationy7,1300,locationy8);
 
-
-            border.setColor(Color.argb(100,255,255,255)); //white background
-            border.setStroke(1, 0xFF000000); //black border with full opacity
-            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                tview[i].setBackgroundDrawable(border);
-            } else {
-                tview[i].setBackground(border);
+        if(up){
+            locationy1 -= 5;
+            locationy2 -= 5;
+            if(fire){
+                locationy5 +=25;
+                locationy6 +=25;
+            }else{
+                locationy3 -=5 ;
+                locationy4 -=5 ;
             }
 
-
-            customLayout.addView(tview[i]);
+        }else {
+            locationy1 += 5;
+            locationy2 += 5;
+            if(fire){
+                locationy5 +=25;
+                locationy6 +=25;
+            }else{
+                locationy3 +=5;
+                locationy4 +=5;
+            }
         }
-        setContentView(customLayout);
+        if(up2){
+            locationy7 -= 8;
+            locationy8 -= 8;
+        }else{
+            locationy7 += 8;
+            locationy8 += 8;
+        }
+        detectSilicon();
+    }
+
+    private void detectSilicon() {
+        if(locationy2  > 800){
+            up = true;
+        }else if(locationy1 < 0){
+            up = false;
+        }
+        if(locationy8  > 800){
+            up2 = true;
+        }else if(locationy7 < 0){
+            up2 = false;
+        }
+        if((locationy6 > right) || (win)){
+            locationy5 = location11+30;
+            locationy6 = location12-30;
+            locationy3 = locationy1 + 30;
+            locationy4 = locationy2 - 30;
+            win = false;
+            fire = false;
+        }
+        if(viendan.intersect(traitim)){
+            win = true;
+        }
+    }
+
+}
