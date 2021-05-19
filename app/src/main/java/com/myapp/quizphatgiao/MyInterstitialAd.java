@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
@@ -32,7 +33,7 @@ public class MyInterstitialAd {
         }
     }
     MyInterstitialAd(String device, String id_ads, Context context){
-        List<String> testDeviceIds = Arrays.asList("07CC7E40850ABA2DF210A2D2564CAD76");
+        List<String> testDeviceIds = Arrays.asList(device);
         RequestConfiguration configuration =
                 new RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build();
         MobileAds.setRequestConfiguration(configuration);
@@ -45,24 +46,38 @@ public class MyInterstitialAd {
                 // Proceed to the next level.
                 //goToNextLevel();
             }
+            @Override
+            public void onAdFailedToShowFullScreenContent(AdError adError) {
+                // Called when fullscreen content failed to show.
+                Log.d("TAG", "The ad failed to show.");
+            }
+
+            @Override
+            public void onAdShowedFullScreenContent() {
+                // Called when fullscreen content is shown.
+                // Make sure to set your reference to null so you don't
+                // show it a second time.
+                interstitialAd = null;
+                Log.d("TAG", "The ad was shown.");
+            }
         };
 
         InterstitialAd.load(
                 context,
-                "ca-app-pub-8404443559572571/3715462075",
+                id_ads,
                 new AdRequest.Builder().build(),
                 new InterstitialAdLoadCallback() {
                     @Override
                     public void onAdLoaded(@NonNull InterstitialAd ad) {
                         interstitialAd = ad;
                         interstitialAd.setFullScreenContentCallback(fullScreenContentCallback);
-                        Log.d("cuong","onhere1");
+                        Log.d("cuong","onload");
                     }
 
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError adError) {
                         // Code to be executed when an ad request fails.
-                        Log.d("cuong","onhere2");
+                        Log.d("cuong","onfailed");
                     }
                 });
     }

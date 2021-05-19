@@ -11,28 +11,17 @@
         android:theme="@style/Theme.quizphatgiao">
 
         <activity android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-        </activity>
-
-        <activity
-            android:name=".GameActivity"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
-
-
-
         </activity>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-8404443559572571~7405406639"/>
+            android:value="ca-app-pub-8404443559572571~3427142295"/>
     </application>
 
 </manifest>
