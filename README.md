@@ -27,5 +27,3 @@ Drawer
   
 VerticalRecyclerViewFastScroller
   
-  
-  
